@@ -10,7 +10,7 @@ confinement: strict
 grade: devel
 
 apps:
-  uwsgi:
+  api:
     command: snap-openstack keystone-api
     daemon: simple
     plugs:
