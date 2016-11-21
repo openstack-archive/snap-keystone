@@ -1,0 +1,63 @@
+name: keystone
+version: ocata
+summary: OpenStack Identity Service (keystone)
+description: |
+  Keystone provides authentication, authorization and service discovery
+  mechanisms via HTTP primarily for use by projects in the OpenStack
+  family. It is most commonly deployed as an HTTP interface to existing
+  identity systems, such as LDAP.
+confinement: strict
+grade: devel
+
+apps:
+  uwsgi:
+    command: snap-openstack keystone-api
+    daemon: simple
+    plugs:
+      - network
+      - network-bind
+  manage:
+    command: snap-openstack keystone-manage
+    plugs:
+      - network
+
+parts:
+  keystone:
+    plugin: python
+    python-version: python2
+    source: http://tarballs.openstack.org/keystone/keystone-master.tar.gz
+    python-packages:
+      - pymysql
+      - uwsgi
+      - git+https://github.com/openstack-snaps/snap.openstack#egg=snap.openstack
+    constraints: https://raw.githubusercontent.com/openstack/requirements/master/upper-constraints.txt
+    build-packages:
+      - libffi-dev
+      - libssl-dev
+      - libxml2-dev
+      - libxslt1-dev
+      - pkg-config
+      - gcc
+  templates:
+    after:
+      - keystone
+    plugin: dump
+    source: conf
+  config:
+    after:
+      - keystone
+    plugin: dump
+    source: http://tarballs.openstack.org/keystone/keystone-master.tar.gz
+    organize:
+      etc/*.conf: etc/keystone/
+      etc/*.ini: etc/keystone/
+      etc/*.json: etc/keystone/
+      etc/*.templates: etc/keystone/
+    filesets:
+      etc:
+        - etc/keystone/*.conf
+        - etc/keystone/*.ini
+        - etc/keystone/*.json
+        - etc/keystone/*.templates
+    stage: [$etc]
+    snap: [$etc]

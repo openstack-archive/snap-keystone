@@ -1,0 +1,25 @@
+setup:
+  dirs:
+    - "{snap_common}/etc/keystone.conf.d"
+    - "{snap_common}/etc/keystone"
+    - "{snap_common}/etc/uwsgi"
+    - "{snap_common}/log"
+    - "{snap_common}/lock"
+    - "{snap_common}/run"
+    - "{snap_common}/fernet-keys"
+  templates:
+    "keystone-snap.conf.j2": "{snap_common}/etc/keystone.conf.d/keystone-snap.conf"
+    "admin.ini.j2": "{snap_common}/etc/uwsgi/admin.ini"
+    "public.ini.j2": "{snap_common}/etc/uwsgi/public.ini"
+entry_points:
+  keystone-manage:
+    binary: keystone-manage
+    config-files:
+      - "{snap}/etc/keystone/keystone.conf"
+      - "{snap_common}/etc/keystone/keystone.conf"
+    config-dirs:
+      - "{snap_common}/etc/keystone.conf.d"
+  keystone-api:
+    type: uwsgi
+    uwsgi-dir: "{snap_common}/etc/uwsgi"
+    log-file: "{snap_common}/log/keystone.log"
