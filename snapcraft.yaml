@@ -42,7 +42,7 @@ parts:
     after:
       - keystone
     plugin: dump
-    source: conf
+    source: snap
   config:
     after:
       - keystone
