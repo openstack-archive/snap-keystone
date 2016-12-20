@@ -22,4 +22,4 @@ entry_points:
   keystone-api:
     type: uwsgi
     uwsgi-dir: "{snap_common}/etc/uwsgi"
-    log-file: "{snap_common}/log/keystone.log"
+    log-file: "{snap_common}/log/uwsgi.log"
