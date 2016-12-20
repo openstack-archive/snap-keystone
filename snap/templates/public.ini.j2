@@ -9,4 +9,4 @@ processes = 4
 thunder-lock = true
 plugins = python
 lazy-apps = true
-pyargv = --config-file={{ snap }}/etc/keystone/keystone.conf --config-dir={{ snap_common }}/etc/keystone.conf.d
+pyargv = --config-file={{ snap }}/etc/keystone/keystone.conf --config-dir={{ snap_common }}/etc/keystone.conf.d --log-file={{ snap_common }}/log/keystone.log
