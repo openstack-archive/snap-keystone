@@ -29,7 +29,7 @@ parts:
     python-packages:
       - pymysql
       - uwsgi
-      - git+https://github.com/openstack-snaps/snap.openstack#egg=snap.openstack
+      - git+https://github.com/openstack/snap.openstack#egg=snap.openstack
     constraints: https://raw.githubusercontent.com/openstack/requirements/master/upper-constraints.txt
     build-packages:
       - libffi-dev
