@@ -1,25 +1,35 @@
 setup:
   dirs:
-    - "{snap_common}/etc/keystone.conf.d"
-    - "{snap_common}/etc/keystone"
-    - "{snap_common}/etc/uwsgi"
-    - "{snap_common}/log"
-    - "{snap_common}/lock"
-    - "{snap_common}/run"
-    - "{snap_common}/fernet-keys"
+    - "{snap_data}/etc/keystone/keystone.conf.d"
+    - "{snap_data}/etc/keystone/fernet-keys"
+    - "{snap_data}/etc/uwsgi"
+    - "{snap_common}/lib/keystone"
+    - "{snap_common}/lock/keystone"
+    - "{snap_common}/log/keystone"
+    - "{snap_common}/log/uwsgi"
+    - "{snap_common}/run/keystone"
+  symlinks:
+    "{snap_data}/etc/keystone": /etc/keystone
+    "{snap_data}/etc/uwsgi": /etc/uwsgi
+    "{snap_common}/lib/keystone": /var/lib/keystone
+    "{snap_common}/lock/keystone": /var/lock/keystone
+    "{snap_common}/log/keystone": /var/log/keystone
+    "{snap_common}/log/uwsgi": /var/log/uwsgi
+    "{snap_common}/run/keystone": /var/run/keystone
   templates:
-    "keystone-snap.conf.j2": "{snap_common}/etc/keystone.conf.d/keystone-snap.conf"
-    "admin.ini.j2": "{snap_common}/etc/uwsgi/admin.ini"
-    "public.ini.j2": "{snap_common}/etc/uwsgi/public.ini"
+    keystone-snap.conf.j2: "{snap_data}/etc/keystone/keystone.conf.d/keystone-snap.conf"
+    admin.ini.j2: "{snap_data}/etc/uwsgi/keystone-admin.ini"
+    public.ini.j2: "{snap_data}/etc/uwsgi/keystone-public.ini"
+  copyfiles:
+    "{snap}/etc/keystone": "{snap_data}/etc/keystone"
 entry_points:
   keystone-manage:
     binary: keystone-manage
     config-files:
-      - "{snap}/etc/keystone/keystone.conf"
-      - "{snap_common}/etc/keystone/keystone.conf"
+      - "/etc/keystone/keystone.conf"
     config-dirs:
-      - "{snap_common}/etc/keystone.conf.d"
+      - "/etc/keystone/keystone.conf.d"
   keystone-api:
     type: uwsgi
-    uwsgi-dir: "{snap_common}/etc/uwsgi"
-    log-file: "{snap_common}/log/uwsgi.log"
+    uwsgi-dir: "/etc/uwsgi"
+    log-file: "/var/log/uwsgi/keystone.log"
