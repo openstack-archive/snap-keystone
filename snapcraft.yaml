@@ -6,20 +6,18 @@ description: |
   mechanisms via HTTP primarily for use by projects in the OpenStack
   family. It is most commonly deployed as an HTTP interface to existing
   identity systems, such as LDAP.
-confinement: strict
+confinement: classic
 grade: devel
+
+environment:
+  PATH: $PATH:$SNAP/bin/
 
 apps:
   api:
     command: snap-openstack keystone-api
     daemon: simple
-    plugs:
-      - network
-      - network-bind
   manage:
     command: snap-openstack keystone-manage
-    plugs:
-      - network
 
 parts:
   keystone:
@@ -29,23 +27,18 @@ parts:
     python-packages:
       - pymysql
       - uwsgi
-      - git+https://github.com/openstack-snaps/snap.openstack#egg=snap.openstack
+      - git+https://github.com/openstack/snap.openstack#egg=snap.openstack
     constraints: https://raw.githubusercontent.com/openstack/requirements/master/upper-constraints.txt
     build-packages:
+      - gcc
       - libffi-dev
       - libssl-dev
-      - libxml2-dev
-      - libxslt1-dev
-      - pkg-config
-      - gcc
   templates:
-    after:
-      - keystone
+    after: [keystone]
     plugin: dump
     source: snap
   config:
-    after:
-      - keystone
+    after: [keystone]
     plugin: dump
     source: http://tarballs.openstack.org/keystone/keystone-master.tar.gz
     organize:
