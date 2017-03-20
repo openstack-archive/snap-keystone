@@ -1,4 +1,5 @@
 setup:
+  user: "keystone:keystone"
   dirs:
     - "{snap_common}/etc/keystone/keystone.conf.d"
     - "{snap_common}/etc/keystone/fernet-keys"
