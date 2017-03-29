@@ -11,6 +11,7 @@ grade: devel
 
 environment:
   PATH: $PATH:$SNAP/bin/
+  PYTHONPATH: $PYTHONPATH:$SNAP/lib/python2.7/site-packages
 
 apps:
   api:
