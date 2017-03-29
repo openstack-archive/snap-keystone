@@ -10,13 +10,16 @@ confinement: classic
 grade: devel
 
 environment:
-  PATH: $PATH:$SNAP/bin/
+  PATH: $PATH:$SNAP/bin/:$SNAP/usr/sbin
   PYTHONPATH: $PYTHONPATH:$SNAP/lib/python2.7/site-packages
 
 apps:
-  api:
-    command: snap-openstack keystone-api
+  uwsgi:
+    command: snap-openstack keystone-uwsgi
     daemon: simple
+  nginx:
+    command: snap-openstack keystone-nginx
+    daemon: forking
   manage:
     command: snap-openstack keystone-manage
 
@@ -28,12 +31,14 @@ parts:
     python-packages:
       - pymysql
       - uwsgi
-      - git+https://github.com/openstack/snap.openstack#egg=snap.openstack
+      - git+https://github.com/coreycb/snap.openstack#egg=snap.openstack
     constraints: https://raw.githubusercontent.com/openstack/requirements/master/upper-constraints.txt
     build-packages:
       - gcc
       - libffi-dev
       - libssl-dev
+    stage-packages: [nginx]
+    # apt-get install -y nginx libgd-tools nginx-doc python-django-uwsgi uwsgi uwsgi-core uwsgi-emperor uwsgi-plugin-python
   templates:
     after: [keystone]
     plugin: dump
