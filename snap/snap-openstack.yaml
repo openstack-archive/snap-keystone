@@ -3,18 +3,27 @@ setup:
     - "/etc/keystone"
     - "/etc/keystone/conf.d"
     - "/etc/keystone/fernet-keys"
+    - "/etc/nginx/sites-enabled"
     - "/etc/uwsgi"
     - "/var/lib/keystone"
+    - "/var/lib/nginx"
     - "/var/lock/keystone"
     - "/var/log/keystone"
     - "/var/log/uwsgi"
+    - "/var/log/nginx/keystone"
     - "/var/run/keystone"
+    - "/var/www/keystone"
   templates:
     keystone-snap.conf.j2: "/etc/keystone/conf.d/keystone-snap.conf"
     admin.ini.j2: "/etc/uwsgi/keystone-admin.ini"
     public.ini.j2: "/etc/uwsgi/keystone-public.ini"
+    keystone-nginx.conf.j2: "/etc/nginx/sites-enabled/keystone.conf"
+    # NOTE(coreycb): drop nginx.conf template when support lands for
+    # dropping permissions to regular user.
+    nginx.conf.j2: "/etc/nginx/nginx.conf"
   copyfiles:
     "{snap}/etc/keystone": "/etc/keystone"
+    "{snap}/etc/nginx/": "/etc/nginx"
 entry_points:
   keystone-manage:
     binary: keystone-manage
@@ -22,7 +31,9 @@ entry_points:
       - "/etc/keystone/keystone.conf"
     config-dirs:
       - "/etc/keystone/conf.d"
-  keystone-api:
+  keystone-uwsgi:
     type: uwsgi
     uwsgi-dir: "/etc/uwsgi"
     log-file: "/var/log/uwsgi/keystone.log"
+  keystone-nginx:
+    type: nginx
