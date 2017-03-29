@@ -1,6 +1,6 @@
 [uwsgi]
 wsgi-file = {{ snap }}/bin/keystone-wsgi-admin
-uwsgi-socket = /var/run/keystone-admin.sock
+uwsgi-socket = /var/run/keystone/admin.sock
 buffer-size = 65535
 http = 0.0.0.0:35357
 master = true
@@ -9,4 +9,4 @@ processes = 4
 thunder-lock = true
 plugins = python
 lazy-apps = true
-pyargv = --config-file=/etc/keystone/keystone.conf --config-dir=/etc/keystone/keystone.conf.d --log-file=/var/log/keystone/keystone.log
+pyargv = --config-file=/etc/keystone/keystone.conf --config-dir=/etc/keystone/conf.d --log-file=/var/log/keystone/keystone.log

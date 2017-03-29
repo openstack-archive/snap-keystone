@@ -11,6 +11,7 @@ grade: devel
 
 environment:
   PATH: $PATH:$SNAP/bin/
+  PYTHONPATH: $PYTHONPATH:$SNAP/lib/python2.7/site-packages
 
 apps:
   api:
@@ -27,7 +28,7 @@ parts:
     python-packages:
       - pymysql
       - uwsgi
-      - git+https://github.com/openstack/snap.openstack#egg=snap.openstack
+      - git+https://github.com/coreycb/snap.openstack#egg=snap.openstack
     constraints: https://raw.githubusercontent.com/openstack/requirements/master/upper-constraints.txt
     build-packages:
       - gcc
