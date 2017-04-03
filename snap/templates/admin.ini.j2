@@ -1,6 +1,6 @@
 [uwsgi]
 wsgi-file = {{ snap }}/bin/keystone-wsgi-admin
-uwsgi-socket = /var/run/keystone/admin.sock
+uwsgi-socket = /var/run/uwsgi/keystone/admin.sock
 buffer-size = 65535
 master = true
 enable-threads = true

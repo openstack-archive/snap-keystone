@@ -1,9 +1,15 @@
 setup:
+  users:
+    keystone: [keystone, www-data]
+  default_owner: "root:keystone"
+  default_dir_mode: 0750
+  default_file_mode: 0640
   install: classic
   dirs:
     - "/etc/keystone"
     - "/etc/keystone/conf.d"
     - "/etc/keystone/fernet-keys"
+    - "/etc/nginx/keystone"
     - "/etc/nginx/keystone/sites-enabled"
     - "/etc/uwsgi/keystone"
     - "/var/lib/keystone"
@@ -14,17 +20,39 @@ setup:
     - "/var/log/nginx/keystone"
     - "/var/run/keystone"
     - "/var/run/nginx/keystone"
+    - "/var/run/uwsgi/keystone"
   templates:
-    keystone-snap.conf.j2: "/etc/keystone/conf.d/keystone-snap.conf"
     admin.ini.j2: "/etc/uwsgi/keystone/admin.ini"
     public.ini.j2: "/etc/uwsgi/keystone/public.ini"
     keystone-nginx.conf.j2: "/etc/nginx/keystone/sites-enabled/keystone.conf"
-    # NOTE(coreycb): drop nginx.conf template when support lands for
-    # dropping permissions to regular user.
+    keystone-snap.conf.j2: "/etc/keystone/conf.d/keystone-snap.conf"
     nginx.conf.j2: "/etc/nginx/keystone/nginx.conf"
   copyfiles:
     "{snap}/etc/keystone": "/etc/keystone"
     "{snap}/etc/nginx/": "/etc/nginx/keystone"
+  chmod:
+    "/var/lib/nginx": 0770
+    "/var/log/nginx": 0770
+  chown:
+    "/etc/keystone/fernet-keys": "keystone:keystone"
+    "/etc/nginx": "root:www-data"
+    "/etc/uwsgi": "root:www-data"
+    "/var/lib/nginx": "root:www-data"
+    "/var/log/nginx": "root:www-data"
+    "/var/log/uwsgi": "root:www-data"
+    "/var/run/nginx": "root:www-data"
+    "/var/run/uwsgi": "root:www-data"
+  rchown:
+    "/etc/nginx/keystone": "keystone:keystone"
+    "/var/lib/keystone": "keystone:keystone"
+    "/var/lib/nginx/keystone": "keystone:keystone"
+    "/var/lock/keystone": "keystone:keystone"
+    "/var/log/keystone": "keystone:keystone"
+    "/var/log/nginx/keystone": "keystone:keystone"
+    "/var/log/uwsgi/keystone": "keystone:keystone"
+    "/var/run/keystone": "keystone:keystone"
+    "/var/run/nginx/keystone": "keystone:keystone"
+    "/var/run/uwsgi/keystone": "keystone:keystone"
 entry_points:
   keystone-manage:
     binary: keystone-manage
@@ -32,10 +60,16 @@ entry_points:
       - "/etc/keystone/keystone.conf"
     config-dirs:
       - "/etc/keystone/conf.d"
+    run_as:
+      keystone: [keystone, www-data]
   keystone-uwsgi:
     type: uwsgi
     uwsgi-dir: "/etc/uwsgi/keystone"
     log-file: "/var/log/uwsgi/keystone/uwsgi.log"
+    run_as:
+      keystone: [keystone, www-data]
   keystone-nginx:
     type: nginx
     config-file: "/etc/nginx/keystone/nginx.conf"
+    run_as:
+      keystone: [keystone, www-data]
