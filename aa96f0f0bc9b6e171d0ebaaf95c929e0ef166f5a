@@ -1,0 +1,8 @@
+Code-Review+2: Dmitrii Shcherbakov <dmitrii.shcherbakov@canonical.com>
+Workflow+1: Dmitrii Shcherbakov <dmitrii.shcherbakov@canonical.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Wed, 05 Apr 2017 13:00:58 +0000
+Reviewed-on: https://review.openstack.org/451910
+Project: openstack/snap-keystone
+Branch: refs/heads/master
