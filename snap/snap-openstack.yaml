@@ -27,7 +27,7 @@ setup:
     "{snap}/etc/nginx/": "/etc/nginx/keystone"
 entry_points:
   keystone-manage:
-    binary: keystone-manage
+    binary: "{snap}/bin/keystone-manage"
     config-files:
       - "/etc/keystone/keystone.conf"
     config-dirs:
