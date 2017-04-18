@@ -9,36 +9,44 @@ description: |
 confinement: classic
 grade: devel
 
-environment:
-  PATH: $PATH:$SNAP/bin/:$SNAP/usr/sbin
-  PYTHONPATH: $PYTHONPATH:$SNAP/lib/python2.7/site-packages
-  LD_LIBRARY_PATH: $SNAP/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
-
 apps:
   uwsgi:
-    command: snap-openstack keystone-uwsgi
+    command: >
+      env PYTHONPATH=$PYTHONPATH:$SNAP/lib/python2.7/site-packages
+      $SNAP/usr/bin/python2 $SNAP/bin/snap-openstack keystone-uwsgi
     daemon: simple
   nginx:
-    command: snap-openstack keystone-nginx
+    command: >
+      env PYTHONPATH=$PYTHONPATH:$SNAP/lib/python2.7/site-packages
+      LD_LIBRARY_PATH=$SNAP/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+      $SNAP/usr/bin/python2 $SNAP/bin/snap-openstack keystone-nginx
     daemon: forking
   manage:
-    command: snap-openstack keystone-manage
+    command: >
+      env PYTHONPATH=$PYTHONPATH:$SNAP/lib/python2.7/site-packages
+      $SNAP/usr/bin/python2 $SNAP/bin/snap-openstack keystone-manage
 
 parts:
   keystone:
+    after: [python]
     plugin: python
     python-version: python2
     source: http://tarballs.openstack.org/keystone/keystone-master.tar.gz
     python-packages:
       - pymysql
       - uwsgi
-      - git+https://github.com/openstack/snap.openstack#egg=snap.openstack
+      - git+https://github.com/coreycb/snap.openstack@z.uwsgi-opts#egg=snap.openstack
     constraints: https://raw.githubusercontent.com/openstack/requirements/master/upper-constraints.txt
     build-packages:
       - gcc
       - libffi-dev
       - libssl-dev
     stage-packages: [nginx]
+    stage:
+      - -usr/bin/2to3
+      - -usr/bin/pydoc
+      - -usr/bin/python2.7
+      - -usr/lib/python2.7
     install:
       touch $SNAPCRAFT_PART_INSTALL/lib/python2.7/site-packages/paste/__init__.py
       touch $SNAPCRAFT_PART_INSTALL/lib/python2.7/site-packages/repoze/__init__.py
@@ -63,3 +71,16 @@ parts:
         - etc/keystone/*.templates
     stage: [$etc]
     snap: [$etc]
+  python:
+    source: https://www.python.org/ftp/python/2.7.13/Python-2.7.13.tar.xz
+    plugin: autotools
+    configflags:
+      - --prefix=/usr
+      - --enable-shared
+      - --enable-unicode=ucs4
+    build-packages:
+      - libssl-dev
+    prime:
+      - -usr/include
+    install:
+      $SNAPCRAFT_PART_INSTALL/usr/bin/python2 -m ensurepip
