@@ -12,6 +12,7 @@ grade: devel
 environment:
   PATH: $PATH:$SNAP/bin/:$SNAP/usr/sbin
   PYTHONPATH: $PYTHONPATH:$SNAP/lib/python2.7/site-packages
+  LD_LIBRARY_PATH: $SNAP/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
 
 apps:
   uwsgi:
