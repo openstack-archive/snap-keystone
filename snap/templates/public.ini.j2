@@ -1,11 +1,11 @@
 [uwsgi]
 wsgi-file = {{ snap }}/bin/keystone-wsgi-public
-uwsgi-socket = /var/run/keystone/public.sock
+uwsgi-socket = {{ snap_common }}/run/public.sock
 buffer-size = 65535
 master = true
 enable-threads = true
 processes = 4
 thunder-lock = true
 lazy-apps = true
-pyargv = --config-file=/etc/keystone/keystone.conf --config-dir=/etc/keystone/conf.d --log-file=/var/log/keystone/keystone.log
+pyargv = --config-file={{ snap_common }}/etc/keystone/keystone.conf --config-dir={{ snap_common }}/etc/keystone/conf.d --log-file={{ snap_common }}/log/keystone.log
 home = {{ snap }}/usr

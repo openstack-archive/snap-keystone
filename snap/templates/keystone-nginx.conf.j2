@@ -1,20 +1,20 @@
 server {
     listen 5000;
-    access_log /var/log/nginx/keystone/access.log;
-    error_log /var/log/nginx/keystone/error.log;
+    access_log {{ snap_common }}/log/nginx-access.log;
+    error_log {{ snap_common }}/log/nginx-error.log;
     location / {
         include uwsgi_params;
         uwsgi_param SCRIPT_NAME '';
-        uwsgi_pass unix:///var/run/keystone/admin.sock;
+        uwsgi_pass unix://{{ snap_common }}/run/admin.sock;
     }
 }
 server {
     listen 35357;
-    access_log /var/log/nginx/keystone/access.log;
-    error_log /var/log/nginx/keystone/error.log;
+    access_log {{ snap_common }}/log/nginx-access.log;
+    error_log {{ snap_common }}/log/nginx-error.log;
     location / {
         include uwsgi_params;
         uwsgi_param SCRIPT_NAME '';
-        uwsgi_pass unix:///var/run/keystone/public.sock;
+        uwsgi_pass unix://{{ snap_common }}/run/public.sock;
     }
 }
