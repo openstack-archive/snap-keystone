@@ -34,6 +34,7 @@ parts:
     source: http://tarballs.openstack.org/keystone/keystone-stable-ocata.tar.gz
     python-packages:
       - pymysql
+      - pysqlite
       - uwsgi
       - git+https://github.com/openstack/snap.openstack#egg=snap.openstack
     constraints: https://raw.githubusercontent.com/openstack/requirements/stable/ocata/upper-constraints.txt
@@ -41,6 +42,7 @@ parts:
       - gcc
       - libffi-dev
       - libssl-dev
+      - libsqlite3-dev
     stage-packages: [nginx]
     stage:
       - -usr/bin/2to3
