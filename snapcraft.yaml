@@ -31,12 +31,12 @@ parts:
     after: [python]
     plugin: python
     python-version: python2
-    source: http://tarballs.openstack.org/keystone/keystone-master.tar.gz
+    source: http://tarballs.openstack.org/keystone/keystone-stable-ocata.tar.gz
     python-packages:
       - pymysql
       - uwsgi
       - git+https://github.com/openstack/snap.openstack#egg=snap.openstack
-    constraints: https://raw.githubusercontent.com/openstack/requirements/master/upper-constraints.txt
+    constraints: https://raw.githubusercontent.com/openstack/requirements/stable/ocata/upper-constraints.txt
     build-packages:
       - gcc
       - libffi-dev
@@ -57,7 +57,7 @@ parts:
   config:
     after: [keystone]
     plugin: dump
-    source: http://tarballs.openstack.org/keystone/keystone-master.tar.gz
+    source: http://tarballs.openstack.org/keystone/keystone-stable-ocata.tar.gz
     organize:
       etc/*.conf: etc/keystone/
       etc/*.ini: etc/keystone/
