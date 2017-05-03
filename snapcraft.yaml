@@ -33,6 +33,7 @@ parts:
     python-version: python2
     source: http://tarballs.openstack.org/keystone/keystone-stable-ocata.tar.gz
     python-packages:
+      - mysql-python
       - pymysql
       - pysqlite
       - uwsgi
@@ -41,6 +42,7 @@ parts:
     build-packages:
       - gcc
       - libffi-dev
+      - libmysqlclient-dev
       - libssl-dev
       - libsqlite3-dev
     stage-packages: [nginx]
