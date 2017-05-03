@@ -25,6 +25,8 @@ apps:
     command: >
       env PYTHONPATH=$PYTHONPATH:$SNAP/lib/python2.7/site-packages
       $SNAP/usr/bin/python2 $SNAP/bin/snap-openstack keystone-manage
+    aliases:
+      - keystone-manage
 
 parts:
   keystone:
