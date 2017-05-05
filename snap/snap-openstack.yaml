@@ -22,19 +22,25 @@ setup:
     # dropping permissions to regular user.
     nginx.conf.j2: "{snap_common}/etc/nginx/nginx.conf"
   copyfiles:
-    "{snap}/etc/keystone": "{snap_common}/etc/keystone"
     "{snap}/etc/nginx": "{snap_common}/etc/nginx"
 entry_points:
   keystone-manage:
     binary: "{snap}/bin/keystone-manage"
     config-files:
+      - "{snap}/etc/keystone/keystone.conf"
       - "{snap_common}/etc/keystone/keystone.conf"
     config-dirs:
       - "{snap_common}/etc/keystone/conf.d"
   keystone-uwsgi:
     type: uwsgi
     uwsgi-dir: "{snap_common}/etc/uwsgi"
-    log-file: "{snap_common}/log/uwsgi.log"
+    uwsgi-log: "{snap_common}/log/uwsgi.log"
+    config-files:
+      - "{snap}/etc/keystone/keystone.conf"
+      - "{snap_common}/etc/keystone/keystone.conf"
+    config-dirs:
+      - "{snap_common}/etc/keystone/conf.d"
+    log-file: "{snap_common}/log/keystone.log"
   keystone-nginx:
     type: nginx
     config-file: "{snap_common}/etc/nginx/nginx.conf"
