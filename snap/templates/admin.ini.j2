@@ -7,5 +7,5 @@ enable-threads = true
 processes = 4
 thunder-lock = true
 lazy-apps = true
-pyargv = --config-file={{ snap_common }}/etc/keystone/keystone.conf --config-dir={{ snap_common }}/etc/keystone/conf.d --log-file={{ snap_common }}/log/keystone.log
+pyargv = --config-file={{ snap }}/etc/keystone/keystone.conf --config-dir={{ snap_common }}/etc/keystone/conf.d --log-file={{ snap_common }}/log/keystone.log
 home = {{ snap }}/usr
