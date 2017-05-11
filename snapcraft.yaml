@@ -45,7 +45,6 @@ parts:
       - libmysqlclient-dev
       - libssl-dev
       - libsqlite3-dev
-    stage-packages: [nginx]
     stage:
       - -usr/bin/2to3
       - -usr/bin/pydoc
@@ -75,6 +74,17 @@ parts:
         - etc/keystone/*.templates
     stage: [$etc]
     snap: [$etc]
+  nginx:
+    source: http://www.nginx.org/download/nginx-1.13.0.tar.gz
+    plugin: autotools
+    configflags:
+      - --prefix=/usr
+      - --http-log-path=/var/snap/keystone/common/log/nginx-access.log
+      - --error-log-path=/var/snap/keystone/common/log/nginx-error.log
+      - --lock-path=/var/snap/keystone/common/lock/nginx.lock
+      - --pid-path=/var/snap/keystone/common/run/nginx.pid
+    build-packages:
+      - libpcre3-dev
   python:
     source: https://www.python.org/ftp/python/2.7.13/Python-2.7.13.tar.xz
     plugin: autotools
