@@ -1,25 +1,33 @@
 setup:
+  users:
+    snap.keystone: [snap.keystone]
+  default-owner: "root:snap.keystone"
   dirs:
+    - "{snap_common}/etc"
     - "{snap_common}/etc/keystone"
     - "{snap_common}/etc/keystone/conf.d"
-    - "{snap_common}/etc/keystone/fernet-keys"
     - "{snap_common}/etc/nginx"
     - "{snap_common}/etc/uwsgi"
+    - "{snap_common}/fernet-keys"
     - "{snap_common}/lib"
     - "{snap_common}/lock"
     - "{snap_common}/log"
     - "{snap_common}/run"
   templates:
-    keystone-snap.conf.j2: "{snap_common}/etc/keystone/conf.d/keystone-snap.conf"
     admin.ini.j2: "{snap_common}/etc/uwsgi/admin.ini"
-    public.ini.j2: "{snap_common}/etc/uwsgi/public.ini"
     keystone-nginx.conf.j2: "{snap_common}/etc/nginx/sites-enabled/keystone.conf"
-    # NOTE(coreycb): drop root from nginx.conf template when support lands for
-    # dropping permissions to regular user.
+    keystone-snap.conf.j2: "{snap_common}/etc/keystone/conf.d/keystone-snap.conf"
     nginx.conf.j2: "{snap_common}/etc/nginx/nginx.conf"
+    public.ini.j2: "{snap_common}/etc/uwsgi/public.ini"
   copyfiles:
     "{snap}/etc/keystone": "{snap_common}/etc/keystone"
     "{snap}/usr/conf": "{snap_common}/etc/nginx"
+  rchown:
+    "{snap_common}/fernet-keys": "snap.keystone:snap.keystone"
+    "{snap_common}/lib": "snap.keystone:snap.keystone"
+    "{snap_common}/lock": "snap.keystone:snap.keystone"
+    "{snap_common}/log": "snap.keystone:snap.keystone"
+    "{snap_common}/run": "snap.keystone:snap.keystone"
 entry_points:
   keystone-manage:
     binary: "{snap}/bin/keystone-manage"
@@ -27,10 +35,14 @@ entry_points:
       - "{snap_common}/etc/keystone/keystone.conf"
     config-dirs:
       - "{snap_common}/etc/keystone/conf.d"
+    run-as:
+      snap.keystone: [snap.keystone]
   keystone-uwsgi:
     type: uwsgi
     uwsgi-dir: "{snap_common}/etc/uwsgi"
     log-file: "{snap_common}/log/uwsgi.log"
+    run-as:
+      snap.keystone: [snap.keystone]
   keystone-nginx:
     type: nginx
     config-file: "{snap_common}/etc/nginx/nginx.conf"
