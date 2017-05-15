@@ -73,7 +73,7 @@ parts:
         - etc/keystone/*.json
         - etc/keystone/*.templates
     stage: [$etc]
-    snap: [$etc]
+    prime: [$etc]
   nginx:
     source: http://www.nginx.org/download/nginx-1.13.0.tar.gz
     plugin: autotools
