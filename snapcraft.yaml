@@ -37,7 +37,7 @@ parts:
       - pymysql
       - pysqlite
       - uwsgi
-      - git+https://github.com/openstack/snap.openstack#egg=snap.openstack
+      - git+https://github.com/coreycb/snap.openstack#egg=snap.openstack
     constraints: https://raw.githubusercontent.com/openstack/requirements/stable/ocata/upper-constraints.txt
     build-packages:
       - gcc
@@ -73,7 +73,7 @@ parts:
         - etc/keystone/*.json
         - etc/keystone/*.templates
     stage: [$etc]
-    snap: [$etc]
+    prime: [$etc]
   nginx:
     source: http://www.nginx.org/download/nginx-1.13.0.tar.gz
     plugin: autotools
