@@ -14,13 +14,10 @@ setup:
     - "{snap_common}/log"
     - "{snap_common}/run"
   templates:
-    admin.ini.j2: "{snap_common}/etc/uwsgi/admin.ini"
     keystone-nginx.conf.j2: "{snap_common}/etc/nginx/sites-enabled/keystone.conf"
     keystone-snap.conf.j2: "{snap_common}/etc/keystone/conf.d/keystone-snap.conf"
     nginx.conf.j2: "{snap_common}/etc/nginx/nginx.conf"
-    public.ini.j2: "{snap_common}/etc/uwsgi/public.ini"
   copyfiles:
-    "{snap}/etc/keystone": "{snap_common}/etc/keystone"
     "{snap}/usr/conf": "{snap_common}/etc/nginx"
   rchown:
     "{snap_common}/fernet-keys": "snap-keystone:snap-keystone"
@@ -32,6 +29,7 @@ entry_points:
   keystone-manage:
     binary: "{snap}/bin/keystone-manage"
     config-files:
+      - "{snap}/etc/keystone/keystone.conf"
       - "{snap_common}/etc/keystone/keystone.conf"
     config-dirs:
       - "{snap_common}/etc/keystone/conf.d"
@@ -40,7 +38,16 @@ entry_points:
   keystone-uwsgi:
     type: uwsgi
     uwsgi-dir: "{snap_common}/etc/uwsgi"
-    log-file: "{snap_common}/log/uwsgi.log"
+    uwsgi-log: "{snap_common}/log/uwsgi.log"
+    config-files:
+      - "{snap}/etc/keystone/keystone.conf"
+      - "{snap_common}/etc/keystone/keystone.conf"
+    config-dirs:
+      - "{snap_common}/etc/keystone/conf.d"
+    log-file: "{snap_common}/log/keystone.log"
+    templates:
+      admin.ini.j2: "{snap_common}/etc/uwsgi/admin.ini"
+      public.ini.j2: "{snap_common}/etc/uwsgi/public.ini"
     run-as:
       snap-keystone: [snap-keystone]
   keystone-nginx:
