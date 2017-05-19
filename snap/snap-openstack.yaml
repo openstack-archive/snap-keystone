@@ -46,8 +46,8 @@ entry_points:
       - "{snap_common}/etc/keystone/conf.d"
     log-file: "{snap_common}/log/keystone.log"
     templates:
-      admin.ini.j2: "{snap_common}/etc/uwsgi/admin.ini"
-      public.ini.j2: "{snap_common}/etc/uwsgi/public.ini"
+      admin-snap.ini.j2: "{snap_common}/etc/uwsgi/admin-snap.ini"
+      public-snap.ini.j2: "{snap_common}/etc/uwsgi/public-snap.ini"
     run-as:
       snap-keystone: [snap-keystone]
   keystone-nginx:
