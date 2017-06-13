@@ -32,7 +32,7 @@ and $SNAP_COMMON locations:
 
     /var/snap/keystone/common/etc/
     ├── keystone
-    │   └── conf.d
+    │   └── keystone.conf.d
     │       └── keystone-snap.conf
     ├── nginx
     │   ├── snap
@@ -48,7 +48,7 @@ area. The default keystone configuration can be overridden as follows:
 
     /var/snap/keystone/common/etc/
     ├── keystone
-    │   ├── conf.d
+    │   ├── keystone.conf.d
     │   │   ├── keystone-snap.conf
     │   │   ├── database.conf
     │   │   └── rabbitmq.conf
@@ -67,7 +67,7 @@ area. The default keystone configuration can be overridden as follows:
         └── keystone.ini
 
 The keystone configuration can be overridden or augmented by writing
-configuration snippets to files in the conf.d directory.
+configuration snippets to files in the keystone.conf.d directory.
 
 Alternatively, keystone configuration can be overridden by adding a full
 keystone.conf file to the keystone/ directory. If overriding in this way, you'll
