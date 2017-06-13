@@ -5,7 +5,7 @@ setup:
   dirs:
     - "{snap_common}/etc"
     - "{snap_common}/etc/keystone"
-    - "{snap_common}/etc/keystone/conf.d"
+    - "{snap_common}/etc/keystone/keystone.conf.d"
     - "{snap_common}/etc/nginx"
     - "{snap_common}/etc/nginx/sites-enabled"
     - "{snap_common}/etc/nginx/snap"
@@ -19,7 +19,7 @@ setup:
     - "{snap_common}/run"
   templates:
     keystone-nginx.conf.j2: "{snap_common}/etc/nginx/snap/sites-enabled/keystone.conf"
-    keystone-snap.conf.j2: "{snap_common}/etc/keystone/conf.d/keystone-snap.conf"
+    keystone-snap.conf.j2: "{snap_common}/etc/keystone/keystone.conf.d/keystone-snap.conf"
     nginx.conf.j2: "{snap_common}/etc/nginx/snap/nginx.conf"
   rchown:
     "{snap_common}/fernet-keys": "snap-keystone:snap-keystone"
@@ -35,7 +35,7 @@ entry_points:
     config-files-override:
       - "{snap_common}/etc/keystone/keystone.conf"
     config-dirs:
-      - "{snap_common}/etc/keystone/conf.d"
+      - "{snap_common}/etc/keystone/keystone.conf.d"
     run-as:
       snap-keystone: [snap-keystone]
   keystone-uwsgi:
@@ -48,7 +48,7 @@ entry_points:
     config-files-override:
       - "{snap_common}/etc/keystone/keystone.conf"
     config-dirs:
-      - "{snap_common}/etc/keystone/conf.d"
+      - "{snap_common}/etc/keystone/keystone.conf.d"
     log-file: "{snap_common}/log/keystone.log"
     templates:
       admin.ini.j2: "{snap_common}/etc/uwsgi/snap/admin.ini"
