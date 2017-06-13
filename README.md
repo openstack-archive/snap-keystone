@@ -7,7 +7,7 @@ service, Keystone.
 
 The keystone snap can be installed directly from the snap store:
 
-    sudo snap install --edge --classic keystone
+    sudo snap install --edge keystone
 
 The keystone snap is working towards publication across tracks for
 OpenStack releases. The edge channel for each track will contain the tip
@@ -17,8 +17,8 @@ will be published progressively to beta, then candidate, and then stable once
 CI validation completes for the channel. This should result in an experience
 such as:
 
-    sudo snap install --classic --channel=ocata/stable keystone
-    sudo snap install --classic --channel=pike/edge keystone
+    sudo snap install --channel=ocata/stable keystone
+    sudo snap install --channel=pike/edge keystone
 
 ## Configuring keystone
 
@@ -89,11 +89,6 @@ The services for the keystone snap will log to its $SNAP_COMMON writable area:
 /var/snap/keystone/common/log.
 
 ## Managing keystone
-
-The keystone snap will drop privileges to run daemons and commands under
-a regular user named snap-keystone. Additionally, permissions and ownership
-of files and directories in /var/snap/keystone/common/ are modified to
-restrict access from other users.
 
 The keystone snap has alias support that enables use of the well-known
 keystone-manage command. To enable the alias, run the following prior to
