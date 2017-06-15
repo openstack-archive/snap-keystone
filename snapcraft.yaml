@@ -6,31 +6,31 @@ description: |
   mechanisms via HTTP primarily for use by projects in the OpenStack
   family. It is most commonly deployed as an HTTP interface to existing
   identity systems, such as LDAP.
-confinement: classic
+confinement: strict
 grade: devel
 
 apps:
   uwsgi:
-    command: >
-      env PYTHONPATH=$PYTHONPATH:$SNAP/lib/python2.7/site-packages
-      $SNAP/usr/bin/python2 $SNAP/bin/snap-openstack keystone-uwsgi
+    command: snap-openstack keystone-uwsgi
     daemon: simple
+    plugs:
+      - network-bind
   nginx:
-    command: >
-      env PYTHONPATH=$PYTHONPATH:$SNAP/lib/python2.7/site-packages
-      LD_LIBRARY_PATH=$SNAP/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
-      $SNAP/usr/bin/python2 $SNAP/bin/snap-openstack keystone-nginx
+    command: snap-openstack keystone-nginx
     daemon: forking
+    plugs:
+      - browser-support
+      - network-bind
   manage:
-    command: >
-      env PYTHONPATH=$PYTHONPATH:$SNAP/lib/python2.7/site-packages
-      $SNAP/usr/bin/python2 $SNAP/bin/snap-openstack keystone-manage
+    command: snap-openstack keystone-manage
     aliases:
       - keystone-manage
+    plugs:
+      - network
 
 parts:
   keystone:
-    after: [python, patches]
+    after: [patches]
     plugin: python
     python-version: python2
     source: http://tarballs.openstack.org/keystone/keystone-stable-ocata.tar.gz
@@ -47,11 +47,6 @@ parts:
       - libmysqlclient-dev
       - libssl-dev
       - libsqlite3-dev
-    stage:
-      - -usr/bin/2to3
-      - -usr/bin/pydoc
-      - -usr/bin/python2.7
-      - -usr/lib/python2.7
     install: |
       touch $SNAPCRAFT_PART_INSTALL/lib/python2.7/site-packages/paste/__init__.py
       touch $SNAPCRAFT_PART_INSTALL/lib/python2.7/site-packages/repoze/__init__.py
@@ -84,6 +79,7 @@ parts:
     stage: [$etc]
     prime: [$etc]
   nginx:
+    after: [patches]
     source: http://www.nginx.org/download/nginx-1.13.0.tar.gz
     plugin: autotools
     configflags:
@@ -92,19 +88,14 @@ parts:
       - --error-log-path=/var/snap/keystone/common/log/nginx-error.log
       - --lock-path=/var/snap/keystone/common/lock/nginx.lock
       - --pid-path=/var/snap/keystone/common/run/nginx.pid
+      - --http-client-body-temp-path=/var/snap/keystone/common/lib/nginx_client_body
+      - --http-proxy-temp-path=/var/snap/keystone/common/lib/nginx_proxy
+      - --http-fastcgi-temp-path=/var/snap/keystone/common/lib/nginx_fastcgi
+      - --http-uwsgi-temp-path=/var/snap/keystone/common/lib/nginx_uwsgi
+      - --http-scgi-temp-path=/var/snap/keystone/common/lib/nginx_scgi
     build-packages:
       - libpcre3-dev
       - libssl-dev
-  python:
-    source: https://www.python.org/ftp/python/2.7.13/Python-2.7.13.tar.xz
-    plugin: autotools
-    configflags:
-      - --prefix=/usr
-      - --enable-shared
-      - --enable-unicode=ucs4
-    build-packages:
-      - libssl-dev
-    prime:
-      - -usr/include
-    install:
-      $SNAPCRAFT_PART_INSTALL/usr/bin/python2 -m ensurepip
+    prepare: |
+      export PATCH_DIR="../../patches/src"
+      patch -p4 < $PATCH_DIR/drop-nginx-setgroups.patch
