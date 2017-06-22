@@ -87,6 +87,7 @@ parts:
       - --http-fastcgi-temp-path=/var/snap/keystone/common/lib/nginx_fastcgi
       - --http-uwsgi-temp-path=/var/snap/keystone/common/lib/nginx_uwsgi
       - --http-scgi-temp-path=/var/snap/keystone/common/lib/nginx_scgi
+      - --with-http_ssl
     build-packages:
       - libpcre3-dev
       - libssl-dev
