@@ -19,7 +19,6 @@ apps:
     command: snap-openstack keystone-nginx
     daemon: forking
     plugs:
-      - browser-support
       - network-bind
   manage:
     command: snap-openstack keystone-manage
