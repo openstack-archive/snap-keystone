@@ -88,14 +88,6 @@ will no longer be used.
 The services for the keystone snap will log to its $SNAP_COMMON writable area:
 /var/snap/keystone/common/log.
 
-## Managing keystone
-
-The keystone snap has alias support that enables use of the well-known
-keystone-manage command. To enable the alias, run the following prior to
-using the command:
-
-    sudo snap alias keystone.manage keystone-manage
-
 ## Restarting keystone services
 
 To restart all keystone services:

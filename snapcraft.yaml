@@ -22,8 +22,6 @@ apps:
       - network-bind
   manage:
     command: snap-openstack keystone-manage
-    aliases:
-      - keystone-manage
     plugs:
       - network
 
