@@ -29,7 +29,7 @@ parts:
   keystone:
     plugin: python
     python-version: python2
-    source: http://tarballs.openstack.org/keystone/keystone-stable-ocata.tar.gz
+    source: https://tarballs.openstack.org/keystone/keystone-stable-ocata.tar.gz
     python-packages:
       - mysql-python
       - pymysql
@@ -56,7 +56,7 @@ parts:
   config:
     after: [keystone]
     plugin: dump
-    source: http://tarballs.openstack.org/keystone/keystone-stable-ocata.tar.gz
+    source: https://tarballs.openstack.org/keystone/keystone-stable-ocata.tar.gz
     organize:
       etc/*.conf: etc/keystone/
       etc/*.ini: etc/keystone/
