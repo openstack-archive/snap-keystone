@@ -7,7 +7,7 @@ service, Keystone.
 
 The keystone snap can be installed directly from the snap store:
 
-    sudo snap install --edge keystone
+    sudo snap install --channel=ocata/edge keystone
 
 The keystone snap is working towards publication across tracks for
 OpenStack releases. The edge channel for each track will contain the tip
