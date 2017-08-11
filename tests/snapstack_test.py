@@ -19,6 +19,7 @@ class SnapstackTest(unittest.TestCase):
             snap='keystone',
             script_loc='./tests/',
             scripts=['keystone.sh'],
+            files=['etc/snap-keystone/keystone/keystone.conf.d/database.conf'],
             snap_store=False)))
 
         # Execute the snapstack tests
