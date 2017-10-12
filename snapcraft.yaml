@@ -32,8 +32,10 @@ parts:
     source: http://tarballs.openstack.org/keystone/keystone-stable-ocata.tar.gz
     python-packages:
       - mysql-python
+      - oslo.cache[dogpile]
       - pymysql
       - pysqlite
+      - python-memcached
       - uwsgi
       - git+https://github.com/openstack/snap.openstack#egg=snap.openstack
     constraints: https://raw.githubusercontent.com/openstack/requirements/stable/ocata/upper-constraints.txt
