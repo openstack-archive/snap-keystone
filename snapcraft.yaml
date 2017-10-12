@@ -32,6 +32,7 @@ parts:
     source: http://tarballs.openstack.org/keystone/keystone-stable-ocata.tar.gz
     python-packages:
       - mysql-python
+      - oslo.cache[dogpile]
       - pymysql
       - pysqlite
       - uwsgi
