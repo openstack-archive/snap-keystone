@@ -3,5 +3,5 @@
 set -x
 
 sudo mysql -u root << EOF
-DROP DATABASE keystone;
+DROP DATABASE IF EXISTS keystone;
 EOF
